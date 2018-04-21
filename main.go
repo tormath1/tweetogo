@@ -3,6 +3,8 @@ package main
 import (
 	"io/ioutil"
 	"log"
+
+	"github.com/dghubble/oauth1"
 )
 
 func main() {
@@ -26,8 +28,11 @@ func main() {
 		log.Fatal("Error while loading access token secret.\n", err)
 	}
 
-	log.Print(string(consumerKey))
-	log.Print(string(consumerSecret))
-	log.Print(string(accessTokenSecret))
-	log.Print(string(accessToken))
+	config := oauth1.NewConfig(string(consumerKey), string(consumerSecret))
+	token := oauth1.NewToken(string(accessToken), string(accessTokenSecret))
+
+	httpClient := oauth1.NewClient(oauth1.NoContext, config, token)
+
+	log.Println(httpClient)
+
 }
