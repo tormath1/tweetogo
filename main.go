@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 )
 
@@ -33,6 +34,18 @@ func main() {
 
 	httpClient := oauth1.NewClient(oauth1.NoContext, config, token)
 
-	log.Println(httpClient)
+	client := twitter.NewClient(httpClient)
+
+	tweets, _, err := client.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
+		Count: 20,
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, tweet := range tweets {
+		log.Print(tweet.Text)
+	}
 
 }
