@@ -51,20 +51,22 @@ func main() {
 
 	update := tgbotapi.UpdateConfig{}
 	update.Timeout = 60
-	update.Offset = 295741460
+	update.Limit = 3
 
-	updates, err := bot.GetUpdates(update)
-	if err != nil {
-		log.Fatal("Error while fetching last updates. ", err)
-	}
-
-	for _, u := range updates {
-		if u.Message == nil {
-			continue
+	for {
+		updates, err := bot.GetUpdates(update)
+		if err != nil {
+			log.Fatal("Error while fetching last updates. ", err)
 		}
-		log.Printf("[%s] Update ID: %d", u.Message.Text, u.UpdateID)
-		if err = popular(bot, &u, u.Message.Text, client); err != nil {
-			log.Print(err)
+		for _, u := range updates {
+			if u.Message == nil {
+				continue
+			}
+			log.Printf("[%s] Update ID: %d", u.Message.Text, u.UpdateID)
+			if err = popular(bot, &u, u.Message.Text, client); err != nil {
+				log.Print(err)
+			}
+			update.Offset = u.UpdateID + 1
 		}
 	}
 }
