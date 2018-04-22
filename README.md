@@ -22,6 +22,10 @@ secrets
 
 You can install TweetoGo directly from sources or from Docker.
 
+#### From binary: 
+
+Get the latest [release](https://github.com/tormath1/tweetogo/releases)
+
 #### From sources:
 
 Please make sure that `go` and `dep` are installed: 
@@ -45,7 +49,7 @@ Clone this repo and change your location:
 $ git clone https://github.com/tormath1/tweetogo.git
 $ cd tweetogo/
 $ dep ensure -vendor-only
-$ mv /your/secrets .
+$ mv /your/secrets /tmp
 $ go run main.go
 ```
 
@@ -91,6 +95,6 @@ $ docker pull tormath1/tweetogo:0.0.1
 Fire up your containers with `docker-compose` !
 
 ```shell
-$ mv /your/secrets .
+$ mv /your/secrets /tmp
 $ docker-compose up -d 
 ```
