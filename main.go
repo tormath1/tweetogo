@@ -12,9 +12,6 @@ import (
 )
 
 func main() {
-	var hashtag string
-
-	hashtag = "TheVoice"
 	consumerKey, err := ioutil.ReadFile("./secrets/consumer-key")
 	if err != nil {
 		log.Fatal("Error while loading consumer key.\n", err)
@@ -47,32 +44,14 @@ func main() {
 
 	client := twitter.NewClient(httpClient)
 
-	hashtagSearch := &twitter.SearchTweetParams{
-		Query:      fmt.Sprintf("#%s", hashtag),
-		Count:      5,
-		ResultType: "popular",
-		Lang:       "en",
-	}
-
-	tweets, _, err := client.Search.Tweets(hashtagSearch)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, tweet := range tweets.Statuses {
-		log.Print(tweet.Text, tweet.Entities.Urls)
-	}
-
 	bot, err := tgbotapi.NewBotAPI(string(telegramToken))
 	if err != nil {
 		log.Fatal("Error while creating new Telegram bot client. ", err)
 	}
 
-	log.Print(bot.Self.UserName)
-
 	update := tgbotapi.UpdateConfig{}
 	update.Timeout = 60
-	update.Offset = 295741457
+	update.Offset = 295741460
 
 	updates, err := bot.GetUpdates(update)
 	if err != nil {
@@ -84,7 +63,7 @@ func main() {
 			continue
 		}
 		log.Printf("[%s] Update ID: %d", u.Message.Text, u.UpdateID)
-		if err = popular(bot, &u, u.Message.Text); err != nil {
+		if err = popular(bot, &u, u.Message.Text, client); err != nil {
 			log.Print(err)
 		}
 	}
@@ -96,11 +75,34 @@ func help(bot *tgbotapi.BotAPI, update *tgbotapi.Update) error {
 	return err
 }
 
-func popular(bot *tgbotapi.BotAPI, update *tgbotapi.Update, text string) error {
+func popular(bot *tgbotapi.BotAPI, update *tgbotapi.Update, text string, client *twitter.Client) error {
 	if len(strings.Split(text, " ")) != 2 {
 		return help(bot, update)
 	}
-	msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Popular: %s", strings.Split(text, " ")[1]))
-	_, err := bot.Send(msg)
+	tweets, err := getPopularTweets(client, strings.Split(text, " ")[1])
+	if err != nil {
+		return err
+	}
+	for _, tweet := range tweets {
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("@%s: %s", tweet.User.ScreenName, tweet.Text))
+		_, err = bot.Send(msg)
+		if err != nil {
+			return err
+		}
+	}
 	return err
+}
+
+func getPopularTweets(client *twitter.Client, text string) ([]twitter.Tweet, error) {
+	hashtagSearch := &twitter.SearchTweetParams{
+		Query:      fmt.Sprintf("#%s", text),
+		Count:      5,
+		ResultType: "popular",
+		Lang:       "en",
+	}
+	tweets, _, err := client.Search.Tweets(hashtagSearch)
+	if err != nil {
+		return nil, err
+	}
+	return tweets.Statuses, nil
 }
