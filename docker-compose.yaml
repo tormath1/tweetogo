@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  tweetogo:
+    image: "tormath1/tweetogo:0.0.1"
+    volumes:
+      - "./secrets:/tmp/:ro"
+    container_name: "tweetogo"
+    hostname: "tweetogo"
+    restart: "always"
