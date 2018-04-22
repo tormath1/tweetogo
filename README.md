@@ -3,6 +3,7 @@
 TweetoGo is a simple Telegram Bot to fetch last 5 popular tweets for a given hashtag.
 
 
+
 ### Requirements
 
 Before installing TweetoGo, you need to get one token from the `BotFather`, `access-token`, `access-token-secret`, `consumer-key` and `consumer-key` from Twitter APIs. 
@@ -81,7 +82,7 @@ CPython version: 3.6.4
 OpenSSL version: OpenSSL 1.1.0h  27 Mar 2018
 ```
 
-You can build directly on your machine, or simply pull image from Docker [Hub](https://hub.docker.com): 
+You can build directly on your machine, or simply pull image from Docker [Hub](https://hub.docker.com/r/tormath1/tweetogo/): 
 
 ```shell
 $ docker build -t name:tag .
