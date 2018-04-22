@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -9,6 +10,9 @@ import (
 )
 
 func main() {
+	var hashtag string
+
+	hashtag = "TheVoice"
 	consumerKey, err := ioutil.ReadFile("./secrets/consumer-key")
 	if err != nil {
 		log.Fatal("Error while loading consumer key.\n", err)
@@ -36,16 +40,19 @@ func main() {
 
 	client := twitter.NewClient(httpClient)
 
-	tweets, _, err := client.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
-		Count: 20,
-	})
+	hashtagSearch := &twitter.SearchTweetParams{
+		Query:      fmt.Sprintf("#%s", hashtag),
+		Count:      5,
+		ResultType: "popular",
+		Lang:       "en",
+	}
 
+	tweets, _, err := client.Search.Tweets(hashtagSearch)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, tweet := range tweets {
-		log.Print(tweet.Text)
+	for _, tweet := range tweets.Statuses {
+		log.Print(tweet.Text, tweet.Entities.Urls)
 	}
-
 }
