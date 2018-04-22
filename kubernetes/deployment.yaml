@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: tweetogo-deployment
@@ -34,7 +34,7 @@ spec:
               secretKeyRef:
                 name:  tweetogo-secrets
                 key:  consumer_key
-          - name:  CONSUMER_KEY_SECRET
+          - name:  CONSUMER_SECRET
             valueFrom:
               secretKeyRef:
                 name:  tweetogo-secrets
