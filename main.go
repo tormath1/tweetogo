@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/dghubble/go-twitter/twitter"
@@ -12,33 +12,14 @@ import (
 )
 
 func main() {
-	consumerKey, err := ioutil.ReadFile("/tmp/consumer-key")
-	if err != nil {
-		log.Fatal("Error while loading consumer key.\n", err)
-	}
+	consumerKey := os.Getenv("CONSUMER_KEY")
+	consumerSecret := os.Getenv("CONSUMER_SECRET")
+	accessToken := os.Getenv("ACCESS_TOKEN")
+	accessTokenSecret := os.Getenv("ACCESS_TOKEN_SECRET")
+	telegramToken := os.Getenv("TELEGRAM_TOKEN")
 
-	consumerSecret, err := ioutil.ReadFile("/tmp/consumer-secret")
-	if err != nil {
-		log.Fatal("Error while loading consumer secret.\n", err)
-	}
-
-	accessToken, err := ioutil.ReadFile("/tmp/access-token")
-	if err != nil {
-		log.Fatal("Error while loading access token.\n", err)
-	}
-
-	accessTokenSecret, err := ioutil.ReadFile("/tmp/access-token-secret")
-	if err != nil {
-		log.Fatal("Error while loading access token secret.\n", err)
-	}
-
-	telegramToken, err := ioutil.ReadFile("/tmp/telegram-token")
-	if err != nil {
-		log.Fatal("Error while loading telegram token.\n", err)
-	}
-
-	config := oauth1.NewConfig(string(consumerKey), string(consumerSecret))
-	token := oauth1.NewToken(string(accessToken), string(accessTokenSecret))
+	config := oauth1.NewConfig(consumerKey, consumerSecret)
+	token := oauth1.NewToken(accessToken, accessTokenSecret)
 
 	httpClient := oauth1.NewClient(oauth1.NoContext, config, token)
 

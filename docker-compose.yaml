@@ -2,9 +2,13 @@ version: "3.4"
 
 services:
   tweetogo:
-    image: "tormath1/tweetogo:0.0.1"
-    volumes:
-      - "./secrets:/tmp/:ro"
+    image: "tormath1/tweetogo:0.0.2"
     container_name: "tweetogo"
     hostname: "tweetogo"
     restart: "always"
+    environment:
+      - CONSUMER_KEY=${CONSUMER_KEY}
+      - CONSUMER_SECRET=${CONSUMER_SECRET}
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}

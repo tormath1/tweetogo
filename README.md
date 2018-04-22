@@ -7,16 +7,17 @@ TweetoGo is a simple Telegram Bot to fetch last 5 popular tweets for a given has
 ### Requirements
 
 Before installing TweetoGo, you need to get one token from the `BotFather`, `access-token`, `access-token-secret`, `consumer-key` and `consumer-key` from Twitter APIs. 
-Save theses token like this:
+Export theses token like this:
 
 ```shell
-$ tree secrets
-secrets
-├── access-token
-├── access-token-secret
-├── consumer-key
-├── consumer-secret
-└── telegram-token
+$ cat > secrets.sh <<EOF
+export CONSUMER_KEY=1234
+export CONSUMER_SECRET=ABCD
+export ACCESS_TOKEN=1A2B3C
+export ACCESS_TOKEN_SECRET=987
+export TELEGRAM_TOKEN=03948576
+EOF
+$ source secrets/secrets.sh
 ```
 
 ### Installation
@@ -50,7 +51,7 @@ Clone this repo and change your location:
 $ git clone https://github.com/tormath1/tweetogo.git
 $ cd tweetogo/
 $ dep ensure -vendor-only
-$ mv /your/secrets /tmp
+$ source secrets.sh
 $ go run main.go
 ```
 
@@ -90,12 +91,12 @@ You can build directly on your machine, or simply pull image from Docker [Hub](h
 
 ```shell
 $ docker build -t name:tag .
-$ docker pull tormath1/tweetogo:0.0.1
+$ docker pull tormath1/tweetogo:0.0.2
 ```
 
 Fire up your containers with `docker-compose` !
 
 ```shell
-$ mv /your/secrets /tmp
+$ source secrets.sh
 $ docker-compose up -d 
 ```
