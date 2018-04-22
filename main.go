@@ -62,7 +62,6 @@ func main() {
 			if u.Message == nil {
 				continue
 			}
-			log.Printf("[%s] Update ID: %d", u.Message.Text, u.UpdateID)
 			if err = popular(bot, &u, u.Message.Text, client); err != nil {
 				log.Print(err)
 			}
