@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tweetogo-deployment
+  labels:
+    app: tweetogo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tweetogo
+  template:
+    metadata:
+      labels:
+        app: tweetogo
+    spec:
+      containers:
+      - name: app
+        image: tormath1/tweetogo:0.0.2
+        imagePullPolicy: Always
+        env:
+          - name:  ACCESS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name:  tweetogo-secrets
+                key:  access_token
+          - name:  ACCESS_TOKEN_SECRET
+            valueFrom:
+              secretKeyRef:
+                name:  tweetogo-secrets
+                key:  access_token_secret
+          - name:  CONSUMER_KEY
+            valueFrom:
+              secretKeyRef:
+                name:  tweetogo-secrets
+                key:  consumer_key
+          - name:  CONSUMER_KEY_SECRET
+            valueFrom:
+              secretKeyRef:
+                name:  tweetogo-secrets
+                key:  consumer_secret
+          - name:  TELEGRAM_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name:  tweetogo-secrets
+                key:  telegram_token
