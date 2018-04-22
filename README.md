@@ -7,7 +7,7 @@ TweetoGo is a simple Telegram Bot to fetch last 5 popular tweets for a given has
 ### Requirements
 
 Before installing TweetoGo, you need to get one token from the `BotFather`, `access-token`, `access-token-secret`, `consumer-key` and `consumer-key` from Twitter APIs. 
-Export theses token like this:
+Export these tokens like this:
 
 ```shell
 $ cat > secrets.sh <<EOF
