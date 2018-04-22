@@ -12,27 +12,27 @@ import (
 )
 
 func main() {
-	consumerKey, err := ioutil.ReadFile("./secrets/consumer-key")
+	consumerKey, err := ioutil.ReadFile("/tmp/consumer-key")
 	if err != nil {
 		log.Fatal("Error while loading consumer key.\n", err)
 	}
 
-	consumerSecret, err := ioutil.ReadFile("./secrets/consumer-secret")
+	consumerSecret, err := ioutil.ReadFile("/tmp/consumer-secret")
 	if err != nil {
 		log.Fatal("Error while loading consumer secret.\n", err)
 	}
 
-	accessToken, err := ioutil.ReadFile("./secrets/access-token")
+	accessToken, err := ioutil.ReadFile("/tmp/access-token")
 	if err != nil {
 		log.Fatal("Error while loading access token.\n", err)
 	}
 
-	accessTokenSecret, err := ioutil.ReadFile("./secrets/access-token-secret")
+	accessTokenSecret, err := ioutil.ReadFile("/tmp/access-token-secret")
 	if err != nil {
 		log.Fatal("Error while loading access token secret.\n", err)
 	}
 
-	telegramToken, err := ioutil.ReadFile("./secrets/telegram-token")
+	telegramToken, err := ioutil.ReadFile("/tmp/telegram-token")
 	if err != nil {
 		log.Fatal("Error while loading telegram token.\n", err)
 	}
